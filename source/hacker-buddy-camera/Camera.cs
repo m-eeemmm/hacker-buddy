@@ -46,8 +46,8 @@ namespace hacker_buddy_camera
                 if (!capture.IsOpened())
                     return;
 
-                capture.FrameWidth = 1920;
-                capture.FrameHeight = 1280;
+                capture.FrameWidth = 200;
+                capture.FrameHeight = 200;
                 capture.AutoFocus = true;
 
                 var mat = new Mat();
@@ -83,7 +83,7 @@ namespace hacker_buddy_camera
                 Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
                 // Detect faces
-                using var cascade = new CascadeClassifier(@"C:\Repos\opencvsharp_samples\SampleBase\Data\Text\haarcascade_frontalface_default.xml");
+                using var cascade = new CascadeClassifier(@".\Data\Text\haarcascade_frontalface_default.xml");
                 Rect[] faces = cascade.DetectMultiScale(
                     gray, 1.08, 2, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(30, 30));
 

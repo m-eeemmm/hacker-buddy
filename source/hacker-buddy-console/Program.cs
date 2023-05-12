@@ -28,12 +28,13 @@ namespace LandUse_Console
             {
                 Console.WriteLine("Press any key to make a guess");
                 //Thread.Sleep(5000);
-                result = Console.ReadKey().Key;
+                
                 cam.TakePhotoAsync();
                 obs.RunAsync();
                 //var bitmap = cam.TakePhoto();
                 //var imagePath = cam.SavePhote(bitmap);
                 //MakeAGuess(imagePath);
+                result = Console.ReadKey().Key;
             } while (result != ConsoleKey.Q);
             Console.WriteLine("=============== End of process, hit any key to finish ===============");
             Console.ReadKey();
