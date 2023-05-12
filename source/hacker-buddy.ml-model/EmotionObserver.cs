@@ -9,7 +9,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Hacker_buddy_ml_model
 {
-    internal class EmotionObserver
+    public class EmotionObserver
     {
         private ISourceBlock<Bitmap> _Source;
 
