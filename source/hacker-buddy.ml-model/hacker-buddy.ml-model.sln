@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacker-buddy.ml-model", "hacker-buddy.ml-model.csproj", "{8C452CBC-66B6-4F2C-8927-913BABE5553A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hacker-buddy.ml-model", "hacker-buddy.ml-model.csproj", "{8C452CBC-66B6-4F2C-8927-913BABE5553A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacker-budy.phone-companion", "..\hacker-budy.phone-companion\hacker-budy.phone-companion.csproj", "{1D1312F3-FF71-49DD-95CA-BA795B10F992}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hacker-budy.phone-companion", "..\hacker-budy.phone-companion\hacker-budy.phone-companion.csproj", "{1D1312F3-FF71-49DD-95CA-BA795B10F992}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacker-buddy-console", "..\hacker-buddy-console\hacker-buddy-console.csproj", "{27C20EC2-1180-4CBF-9EC9-7B62B8705966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacker-buddy-camera", "..\hacker-buddy-camera\hacker-buddy-camera.csproj", "{D30418CC-A7E3-413A-BD29-EC51E737E379}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{1D1312F3-FF71-49DD-95CA-BA795B10F992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D1312F3-FF71-49DD-95CA-BA795B10F992}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D1312F3-FF71-49DD-95CA-BA795B10F992}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{27C20EC2-1180-4CBF-9EC9-7B62B8705966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C20EC2-1180-4CBF-9EC9-7B62B8705966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C20EC2-1180-4CBF-9EC9-7B62B8705966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C20EC2-1180-4CBF-9EC9-7B62B8705966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30418CC-A7E3-413A-BD29-EC51E737E379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30418CC-A7E3-413A-BD29-EC51E737E379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30418CC-A7E3-413A-BD29-EC51E737E379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30418CC-A7E3-413A-BD29-EC51E737E379}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

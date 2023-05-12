@@ -35,6 +35,38 @@ namespace Hacker_buddy_ml_model
             public string Prediction { get; set; }
 
             public float[] Score { get; set; }
+
+            public string[] ClassificationLabels = new string[] { "angry", "disgust", "fear", "happy", "neutral", "sad", "surprise" };
+
+            /*
+              0	angry
+1	disgust
+2	fear
+3	happy
+4	neutral
+5	sad
+6	surprise
+             */
+
+            //public string Prediction
+            //{
+            //    get
+            //    {
+            //        var maxScore = this.Score.Max();
+            //        var maxIndex = Array.IndexOf(this.Score, maxScore);
+            //        return this.ClassificationLabels[maxIndex];
+            //    }
+            //}
+
+            //public float[] Score
+            //{
+            //    get
+            //    {
+            //        var exp = this.Output1.Select(x => (float)Math.Exp(x));
+            //        var exp_sum = exp.Sum();
+            //        return exp.Select(x => x / exp_sum).ToArray();
+            //    }
+            //}
         }
 
         #endregion
