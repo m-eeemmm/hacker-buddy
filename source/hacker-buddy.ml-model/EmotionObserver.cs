@@ -33,7 +33,7 @@ namespace Hacker_buddy_ml_model
             return path;
         }
 
-        internal async void RunAsync()
+        public async void RunAsync()
         {
             while (await _Source.OutputAvailableAsync())
             {
