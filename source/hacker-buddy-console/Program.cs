@@ -19,7 +19,7 @@ namespace hacker_buddy_console
 {
     class Program
     {
-        private const bool WithCam = false;
+        private const bool WithCam = true;
         private static Camera _Cam;
         private static int _ReceivedAlarms;
         private static ConcurrentQueue<Tuple<DateTime, string, float>> _List;
@@ -125,6 +125,8 @@ namespace hacker_buddy_console
 
         private static void ShowClippy(string emotion)
         {
+            if (WithCam)
+                return;
             //Task.Run(() =>
             {
                 if (!_StartedProcess)
