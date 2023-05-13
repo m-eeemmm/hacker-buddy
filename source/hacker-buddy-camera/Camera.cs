@@ -21,7 +21,7 @@ namespace hacker_buddy_camera
             _Source = source;
         }
 
-        public void TakePhotoAsync(int sleepTime = 1000, int count = 10)
+        public void TakePhotoAsync(int sleepTime = 100, int count = 10)
         {
 
             Task.Run(() =>
@@ -70,7 +70,7 @@ namespace hacker_buddy_camera
 
                         var text = Cv2.GetTextSize(CurrentMoodDescription, HersheyFonts.HersheyScriptSimplex, 1, 1, out var bottomLine);
                         faceRecognition.Item3.X -= text.Width / 2;
-                        faceRecognition.Item3.Y += text.Height + bottomLine * 2;
+                        faceRecognition.Item3.Y += text.Height + 40;
                         largeFace.PutText(CurrentMoodDescription, faceRecognition.Item3, HersheyFonts.HersheyScriptSimplex, 0.9, new Scalar(58, 52, 235), 2);
                     }
 
@@ -117,7 +117,7 @@ namespace hacker_buddy_camera
                 Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
                 // Detect faces
-                using var cascade = new CascadeClassifier(@".\Data\Text\haarcascade_frontalface_default.xml");
+                using var cascade = new CascadeClassifier(@".\Data\Text\lbpcascade_frontalface.xml");
                 Rect[] faces = cascade.DetectMultiScale(
                     gray, 1.08, 2, HaarDetectionTypes.FindBiggestObject, new OpenCvSharp.Size(30, 30));
 
