@@ -13,6 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using hacker_buddy_console.Pipe;
 
 namespace hacker_buddy_console
 {
@@ -23,10 +24,14 @@ namespace hacker_buddy_console
         private static int _ReceivedAlarms;
         private static ConcurrentQueue<Tuple<DateTime, string, float>> _List;
 
+        private static bool _StartedProcess = false;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Using model to make single prediction -- Comparing actual Label with predicted Label from sample data...");
             Console.WriteLine("Press 'q' to quit\n\n");
+
+            var instance = PipedPiper.Instance;
 
             ConsoleKey result = ConsoleKey.Spacebar;
             BufferBlock<Bitmap> buffer = new BufferBlock<Bitmap>();
@@ -120,12 +125,21 @@ namespace hacker_buddy_console
         {
             Task.Run(() =>
             {
-                var path = Path.GetFullPath(@"..\..\..\..\hacker-buddy-app\bin\Debug\net6.0-windows\hacker-buddy-app.exe");
-                ProcessStartInfo processStartInfo = new ProcessStartInfo();
-                processStartInfo.FileName = path;
-                processStartInfo.ArgumentList.Add(emotion);
-                processStartInfo.WorkingDirectory = Path.GetDirectoryName(path);
-                Process.Start(processStartInfo);
+                if (!_StartedProcess)
+                {
+                    var path = Path.GetFullPath(@"..\..\..\..\hacker-buddy-app\bin\Debug\net6.0-windows\hacker-buddy-app.exe");
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo();
+                    processStartInfo.FileName = path;
+                    processStartInfo.ArgumentList.Add(emotion);
+                    processStartInfo.WorkingDirectory = Path.GetDirectoryName(path);
+                    var process = Process.Start(processStartInfo);
+                    _StartedProcess = true;
+                    Console.WriteLine("Started Clippy");
+                }
+                else
+                {
+                    PipedPiper.Instance.SpreadVibe(emotion);
+                }
             });
         }
     }
