@@ -13,6 +13,8 @@ namespace hacker_buddy_app
         internal static string GptApiKey = "";
         protected override void OnStartup(StartupEventArgs e)
         {
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+
             if (e.Args.Length > 0)
             {
                 Vibes = e.Args[0];
@@ -21,6 +23,18 @@ namespace hacker_buddy_app
             GptApiKey = File.ReadAllText("gptSecret");
             
             base.OnStartup(e);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            // Log the exception
+            // ...
+
+            // Show an error message to the user
+            MessageBox.Show("An error has occurred and the application needs to close. Error message: " + e.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            // Mark the exception as handled
+            e.Handled = true;
         }
     }
 }
