@@ -16,7 +16,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding ClippySays}" Grid.Row="1"></Label>
-        <TextBlock Text="{Binding GptSays}" Grid.Row="2"></TextBlock>
+        <Label  Content="{Binding ClippySays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"></Label>
+        <TextBlock TextWrapping="Wrap" Text="{Binding GptSays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"></TextBlock>
     </Grid>
 </Window>

@@ -13,13 +13,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ChatGPT.Net" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Data\Img\afraid.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Img\angry.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Img\cleancloud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Img\disgust.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Img\fear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Img\happy.png">
@@ -39,6 +49,9 @@
     </None>
     <None Update="Data\Img\useless.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="gptSecret">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
