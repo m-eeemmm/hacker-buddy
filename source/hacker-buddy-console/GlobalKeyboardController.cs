@@ -52,11 +52,13 @@ namespace hacker_buddy_console
         public event EventHandler HackerSleepingEvent;
         public event EventHandler HackerAwakenEvent;
 
-        public void StartLogging()
+        public void StartLogging(bool withCam)
         {
             DateTime lastKeyCapture = DateTime.Now;
             while (true)
             {
+                if (withCam)
+                    HackerSleepingEvent?.Invoke(null, null);
                 var elapsed = DateTime.Now.Subtract(lastKeyCapture);
                 if (elapsed > TimeSpan.FromSeconds(5))
                 {
@@ -79,7 +81,8 @@ namespace hacker_buddy_console
                     if (keyState == 1 || keyState == -32767 || keyState == 32769)
                     {
                         lastKeyCapture = DateTime.Now;
-                        HackerAwakenEvent?.Invoke(null, null);
+                        if (!withCam)
+                            HackerAwakenEvent?.Invoke(null, null);
                         Console.WriteLine((char)i);
                         break;
                     }

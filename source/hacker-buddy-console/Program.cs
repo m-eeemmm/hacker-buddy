@@ -18,6 +18,7 @@ namespace hacker_buddy_console
 {
     class Program
     {
+        private const bool WithCam = true;
         private static Camera _Cam;
         private static int _ReceivedAlarms;
         private static ConcurrentQueue<Tuple<DateTime, string, float>> _List;
@@ -36,7 +37,7 @@ namespace hacker_buddy_console
             Controller controller = new Controller();
             controller.HackerSleepingEvent += Controller_HackerSleepingEvent;
             controller.HackerAwakenEvent += Controller_HackerAwakenEvent;
-            Task.Run(() => controller.StartLogging());
+            Task.Run(() => controller.StartLogging(WithCam));
             obs.RunAsync();
             RunEscalationObserver(results);
 
@@ -46,7 +47,7 @@ namespace hacker_buddy_console
                 Console.WriteLine("Press any key to make a guess");
                 //Thread.Sleep(5000);
 
-                //_Cam.TakePhotoAsync();
+                // _Cam.TakePhotoAsync();
 
                 result = Console.ReadKey().Key;
             } while (result != ConsoleKey.Q);
@@ -63,7 +64,8 @@ namespace hacker_buddy_console
 
         private static void Controller_HackerSleepingEvent(object? sender, EventArgs e)
         {
-            _Cam.TakePhotoAsync();
+            if (WithCam)
+                _Cam.TakePhotoAsync(100, int.MaxValue);
         }
 
         static bool _ObserverOn = false;

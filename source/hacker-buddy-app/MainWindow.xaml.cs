@@ -24,11 +24,10 @@ namespace hacker_buddy_app
         {
             InitializeComponent();
             Vibes = App.Vibes;
-            this.DataContext = this
-                ;
+            this.DataContext = this;
         }
 
-        
+
         public string Vibes { get; set; }
     }
 }

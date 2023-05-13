@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:hacker_buddy_app"
         mc:Ignorable="d"
-        Title="Let me help you" Height="Auto" Width="Auto">
+        Title="Let me help you" Height="500" Width="250" Top="300" Left="0">
     <Window.Resources>
         <local:StringToImageConverter x:Key="StringToImageConverter"/>
     </Window.Resources>
