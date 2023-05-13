@@ -10,6 +10,6 @@
         <local:StringToImageConverter x:Key="StringToImageConverter"/>
     </Window.Resources>
     <Grid>
-        <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay}"/>
+        <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

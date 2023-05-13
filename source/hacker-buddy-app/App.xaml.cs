@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using hacker_buddy_app.Pipe;
-using hacker_buddy_console.Pipe;
+﻿using System.Windows;
 
 namespace hacker_buddy_app
 {
@@ -20,14 +15,6 @@ namespace hacker_buddy_app
             {
                 Vibes = e.Args[0]; 
             }
-
-
-            PiperPiped.Instance.VibeRefreshed += InstanceOnVibeRefreshed;
-        }
-
-        private void InstanceOnVibeRefreshed(object? sender, VibePackage e)
-        {
-            Vibes = e.Vibe;
         }
     }
 }
