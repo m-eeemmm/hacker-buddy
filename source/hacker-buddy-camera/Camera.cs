@@ -12,7 +12,9 @@ namespace hacker_buddy_camera
         private bool isTakingPhoto = false;
         Window window;
         Window show;
+        public static string CurrentMoodDescription;
         public static string CurrentMood;
+        private readonly string _RelativePath = @"..\..\..\..\hacker-buddy-app\Data\Img";
 
         public Camera(ITargetBlock<Bitmap> source)
         {
@@ -48,24 +50,28 @@ namespace hacker_buddy_camera
                         show = new Window("Face Detection", WindowFlags.FullScreen);
                         Thread.Sleep(100);
                     }
-                    show.Move(150, 0);
+                    show.Move(250, 0);
                     var faceRecognition = DetectFace(mat);
-                    Mat clippy = new Mat(@"C:\Repos\hacker-buddy\source\hacker-buddy-app\Data\Img\sad.png");
-                    Mat clippy0 = clippy.Resize(faceRecognition.Item1.Size(), 0, 0, InterpolationFlags.Area);
-                    Mat clippy1 = clippy.Resize(new OpenCvSharp.Size(50, 100), 0, 0, InterpolationFlags.Area);
                     var largeFace = faceRecognition.Item1;
-                    var x_offset = 30;
-                    var y_offset = 30;
-                    var x_end = x_offset + clippy1.Width;
-                    var y_end = y_offset + clippy1.Height;
-
-                    largeFace[new Rect(x_offset, y_offset, clippy1.Width, clippy1.Height)] = clippy1;
-                    if (!string.IsNullOrWhiteSpace(CurrentMood) && !faceRecognition.Item2.Empty())
+                    if (!string.IsNullOrWhiteSpace(CurrentMoodDescription) && !faceRecognition.Item2.Empty())
                     {
-                        var text = Cv2.GetTextSize(CurrentMood, HersheyFonts.HersheyScriptSimplex, 1, 1, out var bottomLine);
+                        var clippyPaht = Path.Combine(_RelativePath, $"{CurrentMood}.png");
+
+                        Mat clippy = new Mat(clippyPaht);
+                        //Mat clippy0 = clippy.Resize(faceRecognition.Item1.Size(), 0, 0, InterpolationFlags.Area);
+                        //Mat clippy1 = clippy.Resize(new OpenCvSharp.Size(150, 350), 0, 0, InterpolationFlags.Area);
+                        
+                        var x_offset = 30;
+                        var y_offset = 175;
+                        var x_end = x_offset + clippy.Width;
+                        var y_end = y_offset + clippy.Height;
+
+                        largeFace[new Rect(x_offset, y_offset, clippy.Width, clippy.Height)] = clippy;
+
+                        var text = Cv2.GetTextSize(CurrentMoodDescription, HersheyFonts.HersheyScriptSimplex, 1, 1, out var bottomLine);
                         faceRecognition.Item3.X -= text.Width / 2;
-                        faceRecognition.Item3.Y += text.Height + bottomLine*2;
-                        largeFace.PutText(CurrentMood, faceRecognition.Item3, HersheyFonts.HersheyScriptSimplex, 0.9, new Scalar(58, 52, 235),2);
+                        faceRecognition.Item3.Y += text.Height + bottomLine * 2;
+                        largeFace.PutText(CurrentMoodDescription, faceRecognition.Item3, HersheyFonts.HersheyScriptSimplex, 0.9, new Scalar(58, 52, 235), 2);
                     }
 
                     //    ImreadModes.Color);
@@ -113,7 +119,7 @@ namespace hacker_buddy_camera
                 // Detect faces
                 using var cascade = new CascadeClassifier(@".\Data\Text\haarcascade_frontalface_default.xml");
                 Rect[] faces = cascade.DetectMultiScale(
-                    gray, 1.08, 2, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(30, 30));
+                    gray, 1.08, 2, HaarDetectionTypes.FindBiggestObject, new OpenCvSharp.Size(30, 30));
 
                 // Render all detected faces
                 foreach (Rect face in faces.OrderBy(x => x.Height))
@@ -140,7 +146,8 @@ namespace hacker_buddy_camera
 
         public static void SetCurrentMood(DateTime item1, string item2, float item3)
         {
-            CurrentMood = $"{item1:T} {item2} ({(int)(item3 * 100)}%)";
+            CurrentMoodDescription = $"{item1:T} {item2} ({(int)(item3 * 100)}%)";
+            CurrentMood = item2;
         }
 
         public void Stop()
