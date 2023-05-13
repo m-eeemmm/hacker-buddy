@@ -125,7 +125,7 @@ namespace hacker_buddy_console
 
         private static void ShowClippy(string emotion)
         {
-            Task.Run(() =>
+            //Task.Run(() =>
             {
                 if (!_StartedProcess)
                 {
@@ -142,7 +142,8 @@ namespace hacker_buddy_console
                 {
                     PipedPiper.Instance.SpreadVibe(emotion);
                 }
-            });
+            }
+            //);
         }
     }
 }
