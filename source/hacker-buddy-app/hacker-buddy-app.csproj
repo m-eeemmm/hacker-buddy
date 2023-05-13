@@ -44,6 +44,9 @@
     <None Update="Data\Img\sad.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Img\send.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Img\surprise.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
