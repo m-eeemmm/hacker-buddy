@@ -17,7 +17,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding ClippySays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Background="Red"></Label>
+        <Label Content="{Binding ClippsySays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Background="Red"></Label>
         <TextBlock TextWrapping="Wrap"  Text="{Binding GptSays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Background="Yellow" ></TextBlock>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

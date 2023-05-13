@@ -18,6 +18,7 @@ namespace hacker_buddy_app
         private string _vibes;
         private string _gptSays;
         private string _glippsySays;
+        private Guid _chatId;
 
         private DateTime _lastGptUpdate = DateTime.MinValue;
         private TimeSpan _gptUpdateThreashold = TimeSpan.FromMinutes(1);
@@ -53,8 +54,8 @@ namespace hacker_buddy_app
 
             _lastGptUpdate = DateTime.Now;
 
-            ClippsySays = $"Hallo mein freund, ich habe bemerkt, dass es dir {Vibes} geht. Da sage ich nur dazu:";
-            var answer = await _bot.Ask($"Ich bin Softwareenwickler und heute fühle ich mich {vibe}! Kannst du mir was dazu sagen in zwei sätzen?");
+            ClippsySays = $"Hallo mein freund, ich habe bemerkt, dass es dir {Vibes} geht. Zur aufmunterung, habe ich meinen kleinen Buddy angeschrieben!";
+            var answer = await _bot.Ask($"Ich bin Softwareenwickler und heute fühle ich mich {vibe}! Sag mir in zwei sätzen, was du mir empfiehlst!?", _chatId.ToString());
             GptSays = answer;
         }
 
@@ -99,6 +100,12 @@ namespace hacker_buddy_app
             field = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //var answer = await _bot.Ask(User);
+            //GptSays = answer;
         }
     }
 }

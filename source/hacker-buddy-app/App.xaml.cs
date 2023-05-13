@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Windows;
 
 namespace hacker_buddy_app
@@ -16,7 +17,10 @@ namespace hacker_buddy_app
             {
                 Vibes = e.Args[0];
             }
-            GptApiKey = File.ReadAllText("gptSecret");
+
+            string path = Path.Combine(Assembly.GetExecutingAssembly().Location, "gptSecret");
+
+            GptApiKey = File.ReadAllText(path);
 
 
             base.OnStartup(e);
