@@ -13,6 +13,8 @@ namespace hacker_buddy_app
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private string _vibes;
+        private string _gptSays;
+        private string _glippsySays;
 
         public MainWindow()
         {
@@ -30,6 +32,28 @@ namespace hacker_buddy_app
             {
                 if (value == _vibes) return;
                 _vibes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ClippsySays
+        {
+            get => _glippsySays;
+            set
+            {
+                if (value == _glippsySays) return;
+                _glippsySays = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string GptSays
+        {
+            get => _gptSays;
+            set
+            {
+                if (value == _gptSays) return;
+                _gptSays = value;
                 OnPropertyChanged();
             }
         }
