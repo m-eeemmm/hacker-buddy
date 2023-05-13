@@ -19,7 +19,7 @@ namespace hacker_buddy_console
 {
     class Program
     {
-        private const bool WithCam = true;
+        private const bool WithCam = false;
         private static Camera _Cam;
         private static int _ReceivedAlarms;
         private static ConcurrentQueue<Tuple<DateTime, string, float>> _List;
@@ -69,8 +69,8 @@ namespace hacker_buddy_console
 
         private static void Controller_HackerSleepingEvent(object? sender, EventArgs e)
         {
-            if (WithCam)
-                _Cam.TakePhotoAsync(100, int.MaxValue);
+            //if (!WithCam)
+                _Cam.TakePhotoAsync(WithCam,100, int.MaxValue);
         }
 
         static bool _ObserverOn = false;
@@ -85,7 +85,7 @@ namespace hacker_buddy_console
 
                 Tuple<DateTime, string, float> data;
                 _List = new ConcurrentQueue<Tuple<DateTime, string, float>>();
-                int maxBuffer = 9;
+                int maxBuffer = 3;
                 while (source.OutputAvailableAsync().Result)
                 {
                     try
@@ -101,14 +101,14 @@ namespace hacker_buddy_console
                         }
 
                         var tmpList = _List.ToList();
-                        if (tmpList.Count > 5 && tmpList[0].Item1.Subtract(tmpList[tmpList.Count - 1].Item1) < TimeSpan.FromSeconds(15))
+                        //if (tmpList.Count > 5 && tmpList[0].Item1.Subtract(tmpList[tmpList.Count - 1].Item1) < TimeSpan.FromSeconds(15))
                         {
                             var topOccurence = tmpList.GroupBy(x => x.Item2).OrderByDescending(x => x.Count()).First();
-                            if (topOccurence.Count() > 4)
+                            //if (topOccurence.Count() > 4)
                             {
-                                var top = topOccurence.First();
-                                ShowClippy(top.Item2);
-                                Camera.SetCurrentMood(top.Item1, top.Item2, top.Item3);
+                                //var top = topOccurence.First();
+                                ShowClippy(data.Item2);
+                                Camera.SetCurrentMood(data.Item1, data.Item2, data.Item3);
                                 _List = new ConcurrentQueue<Tuple<DateTime, string, float>>();
                             }
                         }

@@ -16,12 +16,14 @@ namespace hacker_buddy_camera
         public static string CurrentMood;
         private readonly string _RelativePath = @"..\..\..\..\hacker-buddy-app\Data\Img";
 
+        private int _publishInterval = 10;
+
         public Camera(ITargetBlock<Bitmap> source)
         {
             _Source = source;
         }
 
-        public void TakePhotoAsync(int sleepTime = 100, int count = 10)
+        public void TakePhotoAsync(bool withWindow, int sleepTime = 100, int count = 10)
         {
 
             Task.Run(() =>
@@ -45,12 +47,13 @@ namespace hacker_buddy_camera
                 while (photoTaking && i++ < count)
                 {
                     capture.Read(mat);
-                    if (show == null)
+                    if (show == null && withWindow)
                     {
                         show = new Window("Face Detection", WindowFlags.FullScreen);
                         Thread.Sleep(100);
                     }
-                    show.Move(250, 0);
+                        show?.Move(250, 0);
+
                     var faceRecognition = DetectFace(mat);
                     var largeFace = faceRecognition.Item1;
                     if (!string.IsNullOrWhiteSpace(CurrentMoodDescription) && !faceRecognition.Item2.Empty())
@@ -78,18 +81,20 @@ namespace hacker_buddy_camera
                     //m
                     //Mat merge = mat.Add(Mat.FromImageData(File.ReadAllBytes(@"C:\Repos\hacker-buddy\source\hacker-buddy-app\Data\Img\sad.png"), 
                     //    ImreadModes.Color ));
-                    show.ShowImage(largeFace);
+                    show?.ShowImage(largeFace);
                     //show.ShowImage(merge);
 
 
                     if (faceRecognition.Item2.Empty())
                         break;
-                    if (window == null) window = new Window();
+                    if (window == null && withWindow)
+                        window = new Window();
 
-                    window.Move(0, 0);
-                    window.Resize(100, 100);
-                    window.ShowImage(faceRecognition.Item2.Clone());
-                    _Source.Post(BitmapConverter.ToBitmap(faceRecognition.Item2));
+                    window?.Move(0, 0);
+                    window?.Resize(100, 100);
+                    window?.ShowImage(faceRecognition.Item2.Clone());
+                    if (i % _publishInterval == 0)
+                        _Source.Post(BitmapConverter.ToBitmap(faceRecognition.Item2));
 
                     Cv2.WaitKey(sleepTime);
 
