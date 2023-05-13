@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:hacker_buddy_app"
         mc:Ignorable="d"
-        Title="Let me help you" Height="800" Width="250" Top="300" Left="0">
+        Title="Let me help you" Height="800" Width="250" Top="270" Left="0">
     <Window.Resources>
         <local:StringToImageConverter x:Key="StringToImageConverter"/>
     </Window.Resources>
@@ -14,9 +14,21 @@
             <RowDefinition Height="500"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding ClippySays}" Grid.Row="1"></Label>
-        <TextBlock Text="{Binding GptSays}" Grid.Row="2"></TextBlock>
+        <Label Content="{Binding ClippySays}" Grid.Row="1" Background="Red"></Label>
+        <TextBlock Text="{Binding GptSays}" Grid.Row="2" Background="Yellow" ></TextBlock>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="{Binding UserSays}" Background="Gray"/>
+            <Button Click="Button_Click">
+                <Image Source="/Data/Img/send.png" />
+            </Button>
+        </Grid> 
     </Grid>
 </Window>
