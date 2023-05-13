@@ -9,6 +9,8 @@ namespace Hacker_buddy_ml_model
 {
     public partial class MLModel1
     {
+        public static string[] ClassificationLabels = new string[] { "angry", "disgust", "fear", "happy", "neutral", "sad", "surprise" };
+
         /// <summary>
         /// model input class for MLModel1.
         /// </summary>
@@ -36,7 +38,7 @@ namespace Hacker_buddy_ml_model
 
             public float[] Score { get; set; }
 
-            public string[] ClassificationLabels = new string[] { "angry", "disgust", "fear", "happy", "neutral", "sad", "surprise" };
+            public string[] ClassificationLabels = MLModel1.ClassificationLabels;
 
             /*
               0	angry
@@ -47,26 +49,6 @@ namespace Hacker_buddy_ml_model
 5	sad
 6	surprise
              */
-
-            //public string Prediction
-            //{
-            //    get
-            //    {
-            //        var maxScore = this.Score.Max();
-            //        var maxIndex = Array.IndexOf(this.Score, maxScore);
-            //        return this.ClassificationLabels[maxIndex];
-            //    }
-            //}
-
-            //public float[] Score
-            //{
-            //    get
-            //    {
-            //        var exp = this.Output1.Select(x => (float)Math.Exp(x));
-            //        var exp_sum = exp.Sum();
-            //        return exp.Select(x => x / exp_sum).ToArray();
-            //    }
-            //}
         }
 
         #endregion

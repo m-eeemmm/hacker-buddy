@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -16,6 +16,12 @@
   <ItemGroup>
     <ProjectReference Include="..\hacker-buddy-camera\hacker-buddy-camera.csproj" />
     <ProjectReference Include="..\hacker-buddy.ml-model\hacker-buddy.ml-model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dat\clippy2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

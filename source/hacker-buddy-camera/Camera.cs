@@ -8,66 +8,52 @@ namespace hacker_buddy_camera
     public class Camera
     {
         private ITargetBlock<Bitmap> _Source;
+        private bool photoTaking = false;
+        private bool isTakingPhoto = false;
+        Window window;
 
         public Camera(ITargetBlock<Bitmap> source)
         {
             _Source = source;
         }
 
-        public Bitmap TakePhoto()
+        public void TakePhotoAsync(int sleepTime = 1000, int count = 10)
         {
-            //Bitmap bitmap;
-
-            //using var capture = new VideoCapture(0, VideoCaptureAPIs.DSHOW);
-            //if (!capture.IsOpened())
-            //    return null;
-
-            ////capture.FrameWidth = 1920;
-            ////capture.FrameHeight = 1280;
-            ////capture.AutoFocus = true;
-
-            //var mat = new Mat();
-
-            //if (capture.IsOpened())
-            //{
-            //    capture.Read(mat);
-            //    bitmap = BitmapConverter.ToBitmap(mat);
-            //    return bitmap;
-            //}
-            return null;
-        }
-
-        public void TakePhotoAsync(int sleepTime = 10)
-        {
+            if (isTakingPhoto)
+                return;
+            isTakingPhoto = true;
+            photoTaking = true;
             Task.Run(() =>
             {
-                var window = new Window();
                 using var capture = new VideoCapture(0, VideoCaptureAPIs.DSHOW);
                 if (!capture.IsOpened())
                     return;
 
-                capture.FrameWidth = 200;
-                capture.FrameHeight = 200;
+                //capture.FrameWidth = 1920;
+                //capture.FrameHeight = 1048;
                 capture.AutoFocus = true;
 
                 var mat = new Mat();
 
-                while (true)
+                int i = 0;
+                while (photoTaking && i++ < count)
                 {
                     capture.Read(mat);
                     mat = DetectFace(mat);
 
                     if (mat.Empty())
                         break;
-
+                    if (window == null) window = new Window();
                     window.ShowImage(mat);
                     _Source.Post(BitmapConverter.ToBitmap(mat));
-                    int c = Cv2.WaitKey(sleepTime);
-                    if (c >= 0)
-                    {
-                        break;
-                    }
+
+                    Cv2.WaitKey(sleepTime);
                 }
+            }).ContinueWith((t) =>
+            {
+                isTakingPhoto = false;
+                photoTaking = false;
+                window?.Close();
             });
         }
 
@@ -76,6 +62,8 @@ namespace hacker_buddy_camera
 
             Mat result;
 
+            if (mat.Empty())
+                return mat;
             using (var src = mat.Clone())
             using (var gray = new Mat())
             {
@@ -88,7 +76,7 @@ namespace hacker_buddy_camera
                     gray, 1.08, 2, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(30, 30));
 
                 // Render all detected faces
-                foreach (Rect face in faces)
+                foreach (Rect face in faces.OrderByDescending(x => x.Width))
                 {
                     var center = new OpenCvSharp.Point
                     {
@@ -101,25 +89,17 @@ namespace hacker_buddy_camera
                         Height = (int)(face.Height * 0.5)
                     };
                     Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(255, 0, 255), 4);
-                    Mat matFace = new Mat(src, new Rect(face.X, face.Y, face.Width, face.Height));
+                    Mat matFace = new Mat(gray, new Rect(face.X, face.Y, face.Width, face.Height));
+                    //matFace = matFace.Resize(new OpenCvSharp.Size(48, 48),0,0, InterpolationFlags.Area);
                     return matFace;
                 }
             }
             return result;
         }
 
-        public string SavePhote(Bitmap bitmap, string path = null)
+        public void Stop()
         {
-            if (path == null)
-            {
-                string folder = @".\samplepics";
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-                path = Path.Combine(folder, $"{Guid.NewGuid()}.jpg");
-            }
-
-            bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-            return path;
+            photoTaking = false;
         }
     }
 }
