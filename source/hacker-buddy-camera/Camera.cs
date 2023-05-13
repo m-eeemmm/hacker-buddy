@@ -12,6 +12,7 @@ namespace hacker_buddy_camera
         private bool isTakingPhoto = false;
         Window window;
         Window show;
+        public static string CurrentMood;
 
         public Camera(ITargetBlock<Bitmap> source)
         {
@@ -32,8 +33,8 @@ namespace hacker_buddy_camera
                 if (!capture.IsOpened())
                     return;
 
-                capture.FrameWidth = 400;
-                capture.FrameHeight = 800;
+                capture.FrameWidth = 1920;
+                capture.FrameHeight = 1280;
                 capture.AutoFocus = true;
 
                 var mat = new Mat();
@@ -49,12 +50,29 @@ namespace hacker_buddy_camera
                     }
                     show.Move(150, 0);
                     var faceRecognition = DetectFace(mat);
-                    //Mat clippy = Mat.FromImageData(File.ReadAllBytes(@"C:\Repos\hacker-buddy\source\hacker-buddy-app\Data\Img\sad.png"),
+                    Mat clippy = new Mat(@"C:\Repos\hacker-buddy\source\hacker-buddy-app\Data\Img\sad.png");
+                    Mat clippy0 = clippy.Resize(faceRecognition.Item1.Size(), 0, 0, InterpolationFlags.Area);
+                    Mat clippy1 = clippy.Resize(new OpenCvSharp.Size(50, 100), 0, 0, InterpolationFlags.Area);
+                    var largeFace = faceRecognition.Item1;
+                    var x_offset = 30;
+                    var y_offset = 30;
+                    var x_end = x_offset + clippy1.Width;
+                    var y_end = y_offset + clippy1.Height;
+
+                    largeFace[new Rect(x_offset, y_offset, clippy1.Width, clippy1.Height)] = clippy1;
+                    if (!string.IsNullOrWhiteSpace(CurrentMood) && !faceRecognition.Item2.Empty())
+                    {
+                        var text = Cv2.GetTextSize(CurrentMood, HersheyFonts.HersheyScriptSimplex, 1, 1, out var bottomLine);
+                        faceRecognition.Item3.X -= text.Width / 2;
+                        faceRecognition.Item3.Y += text.Height + bottomLine*2;
+                        largeFace.PutText(CurrentMood, faceRecognition.Item3, HersheyFonts.HersheyScriptSimplex, 0.9, new Scalar(58, 52, 235),2);
+                    }
+
                     //    ImreadModes.Color);
                     //m
                     //Mat merge = mat.Add(Mat.FromImageData(File.ReadAllBytes(@"C:\Repos\hacker-buddy\source\hacker-buddy-app\Data\Img\sad.png"), 
                     //    ImreadModes.Color ));
-                    show.ShowImage(faceRecognition.Item1);
+                    show.ShowImage(largeFace);
                     //show.ShowImage(merge);
 
 
@@ -69,7 +87,7 @@ namespace hacker_buddy_camera
 
                     Cv2.WaitKey(sleepTime);
 
-                    
+
                 }
                 isTakingPhoto = false;
                 photoTaking = false;
@@ -77,24 +95,25 @@ namespace hacker_buddy_camera
             });
         }
 
-        private (Mat, Mat) DetectFace(Mat mat)
+        private (Mat, Mat, OpenCvSharp.Point) DetectFace(Mat mat)
         {
             Mat result;
             Mat matFace = mat.EmptyClone();
+            OpenCvSharp.Point faceBottom = new OpenCvSharp.Point(0, 0);
 
             if (mat.Empty())
-                return (mat, mat);
+                return (mat, mat, faceBottom);
 
             using (var src = mat.Clone())
             using (var gray = new Mat())
             {
                 result = src.Clone();
                 Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
-                
+
                 // Detect faces
                 using var cascade = new CascadeClassifier(@".\Data\Text\haarcascade_frontalface_default.xml");
                 Rect[] faces = cascade.DetectMultiScale(
-                    gray, 1.1, 3, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(48, 48));
+                    gray, 1.08, 2, HaarDetectionTypes.ScaleImage, new OpenCvSharp.Size(30, 30));
 
                 // Render all detected faces
                 foreach (Rect face in faces.OrderBy(x => x.Height))
@@ -107,15 +126,21 @@ namespace hacker_buddy_camera
                     var axes = new OpenCvSharp.Size
                     {
                         Width = (int)(face.Width * 0.5),
-                        Height = (int)(face.Height * 0.5)
+                        Height = (int)(face.Height * 0.65)
                     };
                     Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(0, 255, 0), 4);
 
                     matFace = new Mat(gray, new Rect(face.X, face.Y, face.Width, face.Height));
                     matFace = matFace.Resize(new OpenCvSharp.Size(100, 100), 0, 0, InterpolationFlags.LinearExact);
+                    faceBottom = new OpenCvSharp.Point(center.X, face.Y + face.Height);
                 }
             }
-            return (result, matFace);
+            return (result, matFace, faceBottom);
+        }
+
+        public static void SetCurrentMood(DateTime item1, string item2, float item3)
+        {
+            CurrentMood = $"{item1:T} {item2} ({(int)(item3 * 100)}%)";
         }
 
         public void Stop()

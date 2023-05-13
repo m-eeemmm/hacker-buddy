@@ -106,7 +106,9 @@ namespace hacker_buddy_console
                             var topOccurence = tmpList.GroupBy(x => x.Item2).OrderByDescending(x => x.Count()).First();
                             if (topOccurence.Count() > 4)
                             {
-                                ShowClippy(topOccurence.First().Item2);
+                                var top = topOccurence.First();
+                                ShowClippy(top.Item2);
+                                Camera.SetCurrentMood(top.Item1, top.Item2, top.Item3);
                                 _List = new ConcurrentQueue<Tuple<DateTime, string, float>>();
                             }
                         }
