@@ -18,11 +18,8 @@ namespace hacker_buddy_app
                 Vibes = e.Args[0];
             }
 
-            string path = Path.Combine(Assembly.GetExecutingAssembly().Location, "gptSecret");
-
-            GptApiKey = File.ReadAllText(path);
-
-
+            GptApiKey = File.ReadAllText("gptSecret");
+            
             base.OnStartup(e);
         }
     }

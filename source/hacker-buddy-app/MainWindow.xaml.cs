@@ -42,6 +42,8 @@ namespace hacker_buddy_app
             {
                 if (value == _vibes) return;
                 _vibes = value;
+
+                MessageBox.Show("Commin Here:" + _bot.APIKey);
                 UpdateChatGPTAsync(_vibes);
                 OnPropertyChanged();
             }
@@ -54,8 +56,12 @@ namespace hacker_buddy_app
 
             _lastGptUpdate = DateTime.Now;
 
-            ClippsySays = $"Hallo mein freund, ich habe bemerkt, dass es dir {Vibes} geht. Zur aufmunterung, habe ich meinen kleinen Buddy angeschrieben!";
+            MessageBox.Show("Asking now:" + _bot.APIKey);
+
             var answer = await _bot.Ask($"Ich bin Softwareenwickler und heute fühle ich mich {vibe}! Sag mir in zwei sätzen, was du mir empfiehlst!?", _chatId.ToString());
+
+            MessageBox.Show("Answer is: " + answer);
+            ClippsySays = $"Hallo mein freund, ich habe bemerkt, dass es dir {Vibes} geht. Zur aufmunterung, habe ich meinen kleinen Buddy angeschrieben!";
             GptSays = answer;
         }
 
