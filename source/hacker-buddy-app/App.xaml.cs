@@ -31,7 +31,7 @@ namespace hacker_buddy_app
             // ...
 
             // Show an error message to the user
-            MessageBox.Show("An error has occurred and the application needs to close. Error message: " + e.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("An error has occurred and the application needs to close. Error messagee: " + e.ToString() + "\r\n" + e.Exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             // Mark the exception as handled
             e.Handled = true;
