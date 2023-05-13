@@ -5,30 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:hacker_buddy_app"
         mc:Ignorable="d"
-        Title="Let me help you" Height="800" Width="250" Top="270" Left="0">
+        Title="Let me help you" Height="800" Width="500" Top="200" Left="0"
+        Background="WhiteSmoke" FontSize="15">
     <Window.Resources>
         <local:StringToImageConverter x:Key="StringToImageConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="500"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*" />
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding ClippsySays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Background="Red"></Label>
-        <TextBlock TextWrapping="Wrap"  Text="{Binding GptSays, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Background="Yellow" ></TextBlock>
-        <Grid Grid.Row="3">
+        <Image Source="{Binding Path=Vibes, Converter={StaticResource StringToImageConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+               />
+        <Grid Grid.Row="1" ShowGridLines="True" Margin="0,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Clippy:"   FontStyle="Italic" Background="WhiteSmoke"></Label>
+            <TextBlock TextWrapping="Wrap"  Text="{Binding ClippsySays, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="5,0,0,0"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="2" ShowGridLines="True" Margin="0,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="ChatGPT:"   FontStyle="Italic" Background="WhiteSmoke"></Label>
+            <TextBlock TextWrapping="Wrap"  Text="{Binding GptSays, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="5,0,0,0" ></TextBlock>
+        </Grid>
+        <!--<Grid Grid.Row="3" ShowGridLines="True" Margin="0,0,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
-
-            <TextBox Text="{Binding UserSays}" Background="Gray"/>
-            <Button Click="Button_Click">
+            <TextBox Text="{Binding UserSays}" Background="White"/>
+            <Button Click="Button_Click" Grid.Column="1">
                 <Image Source="/Data/Img/send.png" />
             </Button>
-        </Grid> 
+        </Grid>-->
     </Grid>
 </Window>
