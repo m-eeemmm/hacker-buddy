@@ -44,7 +44,7 @@ namespace hacker_buddy_camera
                     if (mat.Empty())
                         break;
                     if (window == null) window = new Window();
-                    window.ShowImage(mat);
+                    window.ShowImage(mat.Clone());
                     _Source.Post(BitmapConverter.ToBitmap(mat));
 
                     Cv2.WaitKey(sleepTime);

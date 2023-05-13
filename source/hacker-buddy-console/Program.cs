@@ -66,10 +66,16 @@ namespace hacker_buddy_console
             _Cam.TakePhotoAsync();
         }
 
+        static bool _ObserverOn = false;
         static async void RunEscalationObserver(ISourceBlock<Tuple<DateTime, string, float>> source)
         {
+
             Task.Run(() =>
             {
+                if (_ObserverOn)
+                    return;
+                _ObserverOn = true;
+
                 Tuple<DateTime, string, float> data;
                 _List = new ConcurrentQueue<Tuple<DateTime, string, float>>();
                 int maxBuffer = 9;
@@ -102,7 +108,9 @@ namespace hacker_buddy_console
                     {
 
                     }
+
                 }
+                _ObserverOn = false;
             });
         }
 
@@ -115,37 +123,8 @@ namespace hacker_buddy_console
                 processStartInfo.FileName = path;
                 processStartInfo.ArgumentList.Add(emotion);
                 processStartInfo.WorkingDirectory = Path.GetDirectoryName(path);
-                //processStartInfo.Arguments = " \""+emotion+"\"";
-                //processStartInfo.
-                var p = Process.Start(processStartInfo);
-                //var p = Process.Start(path, new string[] { emotion });
-                var s = p.Start();
-                p.WaitForExit();
+                Process.Start(processStartInfo);
             });
-
-            //MainWindow main = new MainWindow();
-            //main.con
-            //main.Show();
-            //System.Windows.Forms.Form wnd = new System.Windows.Forms.Window();
-            //window = new Window();
-            //window.ShowImage(Mat.FromImageData(File.ReadAllBytes(@".\dat\clippy2.png")));
         }
-
-        //public static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
-        //{
-        //    if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
-        //    {
-        //        Keys pressedKey = (Keys)Marshal.ReadInt32(lParam);
-
-        //        if (pressedKey == Keys.F11 || pressedKey == Keys.F12)
-        //        {
-        //            // Do something...
-
-        //            // Don't pass the key press on to the system
-        //            lParam = null;
-        //        }
-        //    }
-        //    return CallNextHookEx(_hookID, nCode, wParam, lParam);
-        //}
     }
 }
