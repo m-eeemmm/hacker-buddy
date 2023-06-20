@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>hacker_buddy_console</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.7.0.20230115" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.7.0.20230115" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\hacker-buddy-camera\hacker-buddy-camera.csproj" />
+    <ProjectReference Include="..\hacker-buddy.ml-model\hacker-buddy.ml-model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dat\clippy2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
